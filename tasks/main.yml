@@ -11,11 +11,11 @@
     state: present
 
 - name: configure piaware for auto updates
-  shell: /usr/bin/piaware-config allow-auto-updates yes
+  ansible.builtin.shell: /usr/bin/piaware-config allow-auto-updates yes
   changed_when: false
 
 - name: configure piaware for manual updates
-  shell: /usr/bin/piaware-config allow-manual-updates yes
+  ansible.builtin.shell: /usr/bin/piaware-config allow-manual-updates yes
   changed_when: false
 
 - name: install dump1090-fa package
