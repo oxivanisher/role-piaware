@@ -1,5 +1,6 @@
 galaxy_info:
   role_name: piaware
+  namespace: oxivanisher
   author: Marc Urben
   description: Install piaware
   company: Thunderbluff
