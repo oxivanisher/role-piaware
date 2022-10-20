@@ -1,24 +1,24 @@
 ---
 
-- name: ensure piaware repository
+- name: Ensure piaware repository
   ansible.builtin.apt:
     deb: "{{ piaware_deb_url }}"
     update_cache: true
 
-- name: install piaware package
+- name: Install piaware package
   ansible.builtin.package:
     name: piaware
     state: present
 
-- name: configure piaware for auto updates
+- name: Configure piaware for auto updates
   ansible.builtin.shell: /usr/bin/piaware-config allow-auto-updates yes
   changed_when: false
 
-- name: configure piaware for manual updates
+- name: Configure piaware for manual updates
   ansible.builtin.shell: /usr/bin/piaware-config allow-manual-updates yes
   changed_when: false
 
-- name: install dump1090-fa package
+- name: Install dump1090-fa package
   ansible.builtin.package:
     name: dump1090-fa
     state: present
