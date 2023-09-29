@@ -1,5 +1,4 @@
 ---
-
 - name: Ensure piaware repository
   ansible.builtin.apt:
     deb: "{{ piaware_deb_url }}"
@@ -10,11 +9,11 @@
     name: piaware
     state: present
 
-- name: Configure piaware for auto updates
+- name: Configure piaware for auto updates # noqa command-instead-of-shell
   ansible.builtin.shell: /usr/bin/piaware-config allow-auto-updates yes
   changed_when: false
 
-- name: Configure piaware for manual updates
+- name: Configure piaware for manual updates # noqa command-instead-of-shell
   ansible.builtin.shell: /usr/bin/piaware-config allow-manual-updates yes
   changed_when: false
 
