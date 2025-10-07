@@ -4,6 +4,7 @@
 - name: Check if current Debian release is supported
   ansible.builtin.uri:
     url: "http://flightaware.com/adsb/piaware/files/packages/dists/{{ ansible_distribution_release }}/Release"
+  failed_when: repo_supported.status not in [200, 404]
   register: repo_supported
   check_mode: false
 
