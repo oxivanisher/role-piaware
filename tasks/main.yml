@@ -1,33 +1,50 @@
 ---
-- name: Ensure piaware repository
-  ansible.builtin.apt:
-    deb: "{{ piaware_deb_url }}"
-    update_cache: true
-  become: true
-  become_user: root
 
-- name: Install piaware package
-  ansible.builtin.package:
-    name: piaware
-    state: present
-  become: true
-  become_user: root
+# todo check if os is now supported:
+- name: Check if current Debian release is supported
+  ansible.builtin.uri:
+    url: "http://flightaware.com/adsb/piaware/files/packages/dists/{{ ansible_distribution_release }}/Release"
+  register: repo_supported
+  check_mode: false
 
-- name: Configure piaware for auto updates # noqa command-instead-of-shell
-  ansible.builtin.shell: /usr/bin/piaware-config allow-auto-updates yes
-  changed_when: false
-  become: true
-  become_user: root
+- name: Show flightaware repo not supported on this debian release
+  ansible.builtin.debug:
+    msg: "My Debian release ({{ ansible_distribution_release }}) is not yet supported by flightaware or has another problem"
+  when: repo_supported.status != 200
 
-- name: Configure piaware for manual updates # noqa command-instead-of-shell
-  ansible.builtin.shell: /usr/bin/piaware-config allow-manual-updates yes
-  changed_when: false
-  become: true
-  become_user: root
+- name: Only install flightaware if the current release is supported
+  when: repo_supported.status == 200
+  block:
 
-- name: Install dump1090-fa package
-  ansible.builtin.package:
-    name: dump1090-fa
-    state: present
-  become: true
-  become_user: root
+    - name: Ensure piaware repository
+      ansible.builtin.apt:
+        deb: "{{ piaware_deb_url }}"
+        update_cache: true
+      become: true
+      become_user: root
+
+    - name: Install piaware package
+      ansible.builtin.package:
+        name: piaware
+        state: present
+      become: true
+      become_user: root
+
+    - name: Configure piaware for auto updates # noqa command-instead-of-shell
+      ansible.builtin.shell: /usr/bin/piaware-config allow-auto-updates yes
+      changed_when: false
+      become: true
+      become_user: root
+
+    - name: Configure piaware for manual updates # noqa command-instead-of-shell
+      ansible.builtin.shell: /usr/bin/piaware-config allow-manual-updates yes
+      changed_when: false
+      become: true
+      become_user: root
+
+    - name: Install dump1090-fa package
+      ansible.builtin.package:
+        name: dump1090-fa
+        state: present
+      become: true
+      become_user: root
