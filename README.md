@@ -9,7 +9,7 @@ Role Variables
 
 | Name            | Comment                              | Default value                    |
 |-----------------|--------------------------------------|----------------------------------|
-| piaware_deb_url | The debian package location for piaware. | `https://de.flightaware.com/adsb/piaware/files/packages/pool/piaware/f/flightaware-apt-repository/flightaware-apt-repository_1.2_all.deb` |
+| piaware_deb_url | The debian package location for piaware. | `https://www.flightaware.com/adsb/piaware/files/packages/pool/piaware/f/flightaware-apt-repository/flightaware-apt-repository_1.3_all.deb` |
 
 
 Dependencies
