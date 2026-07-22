@@ -3,17 +3,17 @@
 - name: Check if current Debian release is supported
   ansible.builtin.uri:
     url: "http://flightaware.com/adsb/piaware/files/packages/dists/{{ ansible_facts.distribution_release }}/Release"
-  failed_when: repo_supported.status not in [200, 404]
-  register: repo_supported
+  failed_when: piaware_repo_supported.status not in [200, 404]
+  register: piaware_repo_supported
   check_mode: false
 
 - name: Show flightaware repo not supported on this debian release
   ansible.builtin.debug:
     msg: "My Debian release ({{ ansible_facts.distribution_release }}) is not yet supported by flightaware or has another problem"
-  when: repo_supported.status != 200
+  when: piaware_repo_supported.status != 200
 
 - name: Only install flightaware if the current release is supported
-  when: repo_supported.status == 200
+  when: piaware_repo_supported.status == 200
   block:
     - name: Ensure piaware repository
       ansible.builtin.apt:
